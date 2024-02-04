@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Akira:wght@400&display=swap" rel="stylesheet">
+  <title>Art Media Player</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Akira', sans-serif;
+      background: #110322;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    h1, h3 {
+      animation: fadeIn 1s ease-in-out;
+      color: white; /* Set text color to white */
+      text-align: center; /* Center align text */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .frame {
+      display: flex;
+      flex-direction: column;
+      border: 10px solid white;
+      border-radius: 20px;
+      overflow: hidden;
+      max-width: 800px;
+      margin: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      background-color: #110322;
+      height: 100%;
+    }
+
+    .flex-container {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .album {
+      position: relative;
+      width: 30%;
+      margin: 1%;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .album:hover {
+      transform: scale(1.05);
+    }
+
+    .cover-art {
+      position: relative;
+    }
+
+    .cover-art img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: none;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.5s linear;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+    }
+
+    .album:hover .overlay {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .track-list {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dropdown {
+      min-width: 15em;
+      position: relative;
+      margin: 2em;
+    }
+
+    .select {
+      background: #1c1c1c;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 2px solid white;
+      border-radius: 0.5em;
+      padding: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .select-clicked {
+      border: 2px solid white;
+      box-shadow: 0 0 0.8em #1c1c1c;
+    }
+
+    .select:hover {
+      background: #333;
+    }
+
+    .caret {
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
+      transition: transform 0.3s;
+    }
+
+    .select-clicked .caret {
+      transform: rotate(-135deg);
+    }
+
+    .dropdown-content {
+      display: block;  /* Always visible */
+      position: absolute;
+      background-color: #4a4a4a;  /* Changed color */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 20px;  /* Increased padding */
+      border-radius: 10px;  /* Increased border radius */
+      overflow-y: auto;
+      max-height: 200px;
+      top: 100%;
+      left: 0;
+      opacity: 1;  /* Fully visible */
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .menu li {
+      color: rgb(233, 81, 0);
+      padding: 8px 0;
+      list-style-type: none;
+      transition: background-color 0.3s;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .menu li:hover {
+      background-color: #190442;
+    }
+
+    .duration {
+      color: #c4e811;
+      font-size: 14px;
+    }
+
+    .playlist-item {
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .playlist-item:hover {
+      transform: scale(1.05);
+    }
+
+    .current-song {
+      margin-top: 10px;
+      color: rgb(218, 218, 19);
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <h1>Welcome to the Art Media Player</h1>
+    <h3>The best media player of all time</h3>
+    <div class="frame">
+      <div class="flex-container">
+        <div class="album" onclick="toggleTrackList('album1')">
+          <div class="cover-art shadow-lg">
+            <img src="Media 1.jpeg" alt="Album Cover 1">
+            <div class="overlay">
+              <div class="track-list hidden" id="album1">
+                <p onclick="playSong('Summer of 69', '3:45')">Summer of 69</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="album" onclick="toggleTrackList('album2')">
+          <div class="cover-art shadow-lg">
+            <img src="Media 2.jpeg" alt="Album Cover 2">
+            <div class="overlay">
+              <div class="track-list hidden" id="album2">
+                <p onclick="playSong('Believers', '4:20')">Believers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="album" onclick="toggleTrackList('album3')">
+          <div class="cover-art shadow-lg">
+            <img src="Media 3.jpeg" alt="Album Cover 3">
+            <div class="overlay">
+              <div class="track-list hidden" id="album3">
+                <p onclick="playSong('Desperado', '5:10')">Desperado</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="album" onclick="toggleTrackList('album4')">
+          <div class="cover-art shadow-lg">
+            <img src="Media 4.png" alt="Album Cover 4">
+            <div class="overlay">
+              <div class="track-list hidden" id="album4">
+                <p onclick="playSong('Perfect', '3:58')">Perfect</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="album" onclick="toggleTrackList('album5')">
+          <div class="cover-art shadow-lg">
+            <img src="Media 5.jpeg" alt="Album Cover 5">
+            <div class="overlay">
+              <div class="track-list hidden" id="album5">
+                <p onclick="playSong('Starboy', '4:30')">Starboy</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <div class="select">
+        <span class="selected">Playlist</span>
+        <div class="caret"></div>
+      </div>
+      <div class="dropdown-content menu" id="playlist">
+        <li>Summer of 69 <span class="duration">3:45</span></li>
+        <li>Believers <span class="duration">4:20</span></li>
+        <li>Desperado <span class="duration">5:10</span></li>
+        <li>Perfect <span class="duration">3:58</span></li>
+        <li>Starboy <span class="duration">4:30</span></li>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
